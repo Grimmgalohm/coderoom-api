@@ -13,8 +13,8 @@ app.use(jsonParser);
 
 //para desplegar la lista de elementos de la base de datos (funciona)
 app.get('/api/users', function(req, res){
-  directorio.find().then(user =>{
-    res.status(200).json([user]);
+  directorio.find().then(users =>{
+    res.status(200).json(users);
   })
 });
 
@@ -38,9 +38,7 @@ app.post('/api/users', function(req, res){
       work:req.body.work,
       emergency:req.body.emergency
     },{new:true}).then(function(user){
-      res.status(200).json({
-        user
-      })
+      res.status(201).json(user);
     })
   })
 });
@@ -51,7 +49,7 @@ app.put('/api/users/:id', function(req, res){
     bcrypt.hash(req.body.password, 8).then(hash=>{
       directorio.findOneAndUpdate({_id:req.params.id},{nombre:req.body.nombre, password:hash},{new:true})
       .then(function(user){
-        res.status(200).json(user)
+        res.status(202).json(user)
       })
     })
   })
@@ -59,7 +57,7 @@ app.put('/api/users/:id', function(req, res){
 //borra el usuario por id
 app.delete('/api/users/:id', function(req, res){
   directorio.deleteOne({_id:req.params.id}).then(done =>{
-    res.status(200).json(['done']);
+    res.status(204).end();
   })
 })
 
