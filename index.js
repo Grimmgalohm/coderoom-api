@@ -101,7 +101,7 @@ mongoose.connect('mongodb://localhost/directory-cats-test', err => {
       console.log(err);
   }
   app.listen(8080, () => {
-    console.log('Server corriendo en localhost:8080...'.green.bold);
+    console.log(' ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.bold,'\n[|]'.bold,'                       ', '[|]'.bold,'\n[|]'.bold,'    STATUS:'.blue.bold, '    ON'.green.bold, '     [|]'.bold,'\n[|]'.bold,'                       ', '[|]'.bold,'\n[|]'.bold,'    PORT:'.blue.bold, '      8080'.red.bold, '   [|]'.bold,'\n[|]'.bold,'                       ', '[|]'.bold,'\n[|]'.bold,'     READY TO WORK     '.green.bold, '[|]'.bold,'\n[|]'.bold,'                       ', '[|]'.bold,'\n[|]'.bold,'_______________________', '[|]'.bold);
   })
   .on('error', err => {
       mongoose.disconnect();
