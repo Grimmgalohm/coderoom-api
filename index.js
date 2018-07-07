@@ -10,6 +10,7 @@ const colors = require('colors');
 
 const app = express();
 app.use(jsonParser);
+app.use(express.static('public'));
 
 //para desplegar la lista de elementos de la base de datos (funciona) no necesita status de error
 app.get('/api/users', function(req, res){
@@ -29,29 +30,9 @@ app.get('/api/users/:id', function(req, res){
   })
 });
 
-//para crear un usuario en la base de datos
-/*
+//crea un nuevo usuario/ req password y nombre
 app.post('/api/users', function(req, res){
-  bcrypt.hash(req.body.password, 8).then( hash =>{
-    directorio.create({
-      nombre:req.body.nombre,
-      apellido1:req.body.apellido1,
-      apellido2:req.body.apellido2,
-      email:req.body.email,
-      password:hash,
-      celphone:req.body.celphone,
-      home:req.body.home,
-      work:req.body.work,
-      emergency:req.body.emergency
-    },{new:true}).then(function(user){
-      res.status(201).json(user);
-    })
-  })
-});
-*/
-
-app.post('/api/users', function(req, res){
-  if(!req.params.password || !req.params.nombre){
+  if(!req.body.password || !req.body.nombre){
     return res.status(428).send('Precondition Required');
   }else{
   bcrypt.hash(req.body.password, 8).then( hash =>{
@@ -65,14 +46,15 @@ app.post('/api/users', function(req, res){
       home:req.body.home,
       work:req.body.work,
       emergency:req.body.emergency
-    },{new:true}).then(function(user){
+    }).then(function(user){
       res.status(201).json(user);
     })
   })
 }
 });
 
-//modifica nombre de usuario y contraseña
+//modifica nombre de usuario y contraseña/pending
+/*
 app.put('/api/users/:id', function(req, res){
   directorio.findOne({_id:req.params.id}).then(user =>{
     bcrypt.hash(req.body.password, 8).then(hash=>{
@@ -83,6 +65,41 @@ app.put('/api/users/:id', function(req, res){
     })
   })
 });
+*/
+
+//modifica nombre de usuario y contraseña/pending
+app.put('/api/users/:id', function(req, res){
+
+  directorio.findOne({_id:req.params.id}).then(user =>{
+  if(!req.params.id){
+    res.status(404).send('Not Found')
+  }else{
+  let hashPromise;
+
+  if(req.body.password){
+    hashPromise = bcrypt.hash(req.body.password, 8);
+  }else{
+    hashPromise = Promise.resolve();
+  }
+
+  hashPromise.then(hashed => {
+    const fields = ['password', 'nombre'];
+    let updateObject = {};
+    fields.forEach(field => {
+      if(req.body[field]){
+        updateObject[field] = req.body[field];
+      }
+    });
+    if(hashed) updateObject.password = hashed;
+    return directorio.findOneAndUpdate({ _id: req.params.id }, updateObject, {new: true, upsert: true});
+  })
+  .then(user => {
+    res.status(200).json(user);
+     })
+    }
+  })
+});
+
 //borra el usuario por id/con estatus de error
 app.delete('/api/users/:id', function(req, res){
   var search = directorio.findOne({_id:req.params.id});
@@ -98,13 +115,13 @@ app.delete('/api/users/:id', function(req, res){
 
 mongoose.connect('mongodb://localhost/directory-cats-test', err => {
   if (err) {
-      console.log(err);
+      console.log(err, 'You fucked something...'.bgRed.bold);
   }
   app.listen(8080, () => {
     console.log(' ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'.bold,'\n[|]'.bold,'                       ', '[|]'.bold,'\n[|]'.bold,'    STATUS:'.blue.bold, '    ON'.green.bold, '     [|]'.bold,'\n[|]'.bold,'                       ', '[|]'.bold,'\n[|]'.bold,'    PORT:'.blue.bold, '      8080'.red.bold, '   [|]'.bold,'\n[|]'.bold,'                       ', '[|]'.bold,'\n[|]'.bold,'     READY TO WORK     '.green.bold, '[|]'.bold,'\n[|]'.bold,'                       ', '[|]'.bold,'\n[|]'.bold,'_______________________', '[|]'.bold);
   })
   .on('error', err => {
       mongoose.disconnect();
-      console.log(err);
+      console.log(err, 'You fucked something...'.bgRed.bold);
   });
 });
