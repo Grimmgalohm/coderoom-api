@@ -1,14 +1,19 @@
 fetch('http://localhost:8080/api/users')
 .then(response =>{
     if(!response.ok){
-        return Promise.reject(response.json());
+        return Promise.reject(respomse.json());
     }
     return response.json();
 })
 .then(users => {
     console.log(users);
     var userTable = users.map(user => {
-        return `<tr><td>${user.nombre}</td></tr>`;
+        return `<tr>
+        <td>${user.nombre}</td>
+        <td>${user.apellido1}</td>
+        <td>${user.apellido2}</td>
+        <td>${user.email}</td>
+        </tr>`
     })
     userTable.unshift(`<tr>
     <th>Nombre</th>

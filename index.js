@@ -69,10 +69,9 @@ app.put('/api/users/:id', function(req, res){
 
 //modifica nombre de usuario y contraseña/pending
 app.put('/api/users/:id', function(req, res){
-
   directorio.findOne({_id:req.params.id}).then(user =>{
-  if(!req.params.id){
-    res.status(404).send('Not Found')
+  if(!user){
+    return res.status(404).send('Not Found');
   }else{
   let hashPromise;
 
