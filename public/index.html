@@ -3,50 +3,77 @@
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>FrontPage</title>
+    <title>Formulario</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" media="screen" href="./styles/style.css" />
 </head>
 <body>
-    <div>
-        <h1>Create User :v</h1>
+    <header></header>
+    
+    <main>
+    <form>
+        <section>
+            <div>
+                <h1>Create User :v</h1>
+                
+                <p>Nombre</p>
+                <input type="text" name="nombre" required>
+                <br/>
+                <p>Apellido paterno</p>
+                <input type="text" name="apellido1">
+                <br/>
+                <p>Apellido materno</p>
+                <input type="text" name="apellido2">
+                <br/>
+                <p>Correo electronico</p>
+                <input type="email" name="email" required>
+                <br/>
+                <p>Contraseña</p>
+                <input type="password" name="password" required>
+                <br/>
+                <input type="submit" name="crear">
+            </div>
+        </section>
 
-        <p>Nombre</p>
-        <input type="text" name="nombre" required>
-        <br/>
-        <p>Apellido paterno</p>
-        <input type="text" name="apellido1">
-        <br/>
-        <p>Apellido materno</p>
-        <input type="text" name="apellido2">
-        <br/>
-        <p>Correo electronico</p>
-        <input type="email" name="email" required>
-        <br/>
-        <p>Contraseña</p>
-        <input type="password" name="password" required>
-        <br/>
-        <button type="button">Submit</button>
-    </div>
+        <section>
+            <div>
+                <table id="tabla">
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Apellido paterno</th>
+                        <th>Apellido materno</th>
+                        <th>Correo</th>
+                    </tr>
+                    <!--
+                        <tr>
+                            <td>Cesar</td>
+                            <td>Luna</td>
+                            <td>Limón</td>
+                            <td>cll@mail.com</td>
+                        </tr>
+                    -->
+                </table>
+            </div>
+            <div>
+                <input type="checkbox" name="check">
+                <input type="button" name="delete">
+            </div>
+        </section>
+        
+        <section>
+            <div>
+                <h1>User Modifier</h1>
+            </div>
+        </section>
 
-    <div>
-        <table id="tabla">
-            <tr>
-                <th>Nombre</th>
-                <th>Apellido paterno</th>
-                <th>Apellido materno</th>
-                <th>Correo</th>
-            </tr>
-            <!--
-            <tr>
-                <td>Cesar</td>
-                <td>Luna</td>
-                <td>Limón</td>
-                <td>cll@mail.com</td>
-            </tr>
-            -->
-        </table>
-    </div>
+        <section>
+            <div>
+                <h1>Algo :d</h1>
+            </div>
+        </section>
+    </form>
+    </main>
+
 </body>
 <script src="./script/app.js"></script>
 </html>
